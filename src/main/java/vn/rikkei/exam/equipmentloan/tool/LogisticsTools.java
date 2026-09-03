@@ -51,58 +51,11 @@ public class LogisticsTools {
             @ToolParam(description = "Ngày bắt đầu") LocalDate startDate,
             @ToolParam(description = "Ngày kết thúc") LocalDate endDate,
             @ToolParam(description = "Mô tả chi tiết sự cố") String participantCount
-    )
-    }
-
-    /**
-     * Tool 3: updateDeliveryStatus (Write)
-     * Cập nhật trạng thái đơn hàng trong DB
-     */
-    @Tool(description = "Cập nhật trạng thái đơn hàng (DAMAGED, DELAYED, IN_TRANSIT, DELIVERED).")
-    public String updateDeliveryStatus(
-            @ToolParam(description = "Mã vận đơn") String trackingCode,
-            @ToolParam(description = "Trạng thái mới: DAMAGED | DELAYED | IN_TRANSIT | DELIVERED") String newStatus,
-            @ToolParam(description = "Ghi chú bổ sung") String note
     ) {
-        // TODO: Viết logic tìm delivery, cập nhật status và lưu lại
-        Optional<Delivery> opt = deliveryRepository.findByTrackingCode(trackingCode.trim());
 
-        if (opt.isEmpty()) {
-            return "LỖI: Không tìm thấy đơn hàng " + trackingCode;
-        }
 
-        Delivery delivery = opt.get();
-        String oldStatus = delivery.getStatus();
-        delivery.setStatus(newStatus.toUpperCase());
-        deliveryRepository.save(delivery);
-
-        return String.format("THÀNH CÔNG: Đã đổi trạng thái đơn %s từ [%s] sang [%s]",
-                trackingCode, oldStatus, newStatus.toUpperCase());
+        return "";
     }
 
-    /**
-     * Tool 4: queryDeliveries (Analytics / MCP)
-     * Tra cứu danh sách đơn hàng theo bưu cục/trạng thái
-     */
-    @Tool(description = "Tra cứu danh sách đơn hàng theo mã bưu cục và/hoặc trạng thái.")
-    public String queryDeliveries(
-            @ToolParam(description = "Mã bưu cục (HN-01, SG-02, DN-03) hoặc null") String hubCode,
-            @ToolParam(description = "Trạng thái đơn hàng hoặc null") String status
-    ) {
-        // TODO: Viết logic truy vấn đơn hàng và format bảng kết quả Markdown
 
-        return null;
-    }
-
-    /**
-     * Tool 5: generateHubReport (Analytics / MCP)
-     * Báo cáo hiệu suất bưu cục
-     */
-    @Tool(description = "Tạo báo cáo tổng hợp hiệu suất vận hành của một bưu cục.")
-    public String generateHubReport(
-            @ToolParam(description = "Mã bưu cục: HN-01, SG-02, DN-03") String hubCode
-    ) {
-        // TODO: Viết logic thống kê tỉ lệ giao hàng, số sự cố và trả về báo cáo Markdown
-        return null;
-    }
 }
